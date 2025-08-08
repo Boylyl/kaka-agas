@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website for the Best Big Brother</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
+        
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            font-family: 'Indie+Flower', cursive;
+            background-color: #fff9f9;
+        }
+        
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .page {
+            width: 100%;
+            max-width: 500px;
+            height: calc(100vh - 160px);
+            background-color: #fff;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        h1 {
+            color: #ff85a2;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .photo-placeholder {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 15px 0;
+            border: 5px dashed #ffb6c1;
+            overflow: hidden;
+        }
+        
+        .photo-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .message {
+            text-align: center;
+            color: #666;
+            font-size: 1.1rem;
+            line-height: 1.5;
+            margin: 15px 0;
+            padding: 0 10px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 500px;
+            padding: 15px 0;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .nav-btn {
+            background-color: #a2d2ff;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 0;
+            width: 80px;
+            font-family: 'Indie+Flower', cursive;
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            width: 40px;
+            height: 20px;
+            background-color: white;
+            border-radius: 50%;
+            opacity: 0.3;
+        }
+        
+        .nav-btn:hover {
+            transform: scale(1.1);
+            background-color: #ff85a2;
+        }
+        
+        .nav-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .audio-player {
+            width: 100%;
+            margin: 15px 0;
+            position: relative;
+        }
+        
+        .audio-container {
+            display: flex;
+            align-items: center;
+            background-color: #f8e1e7;
+            border-radius: 50px;
+            padding: 8px 15px;
+        }
+        
+        audio {
+            width: 100%;
+            max-width: 300px;
+            margin: 10px 0;
+        }
+        
+        .song-title {
+            flex-grow: 1;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .song-caption {
+            font-size: 0.8rem;
+            color: #999;
+            margin-top: 5px;
+            padding-left: 45px;
+        }
+        
+        .action-btn {
+            background-color: #ffb6c1;
+            border: none;
+            border-radius: 50px;
+            padding: 15px 30px;
+            font-family: 'Indie+Flower', cursive;
+            font-size: 1.3rem;
+            color: white;
+            cursor: pointer;
+            margin: 10px 0;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            width: 80%;
+            text-align: center;
+        }
+        
+        .action-btn:hover {
+            transform: scale(1.05);
+            background-color: #ff85a2;
+        }
+        
+        .quote-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            z-index: 100;
+            max-width: 80%;
+            text-align: center;
+            border: 3px dashed #ffb6c1;
+            display: none;
+        }
+        
+        .quote-text {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .close-btn {
+            background-color: #ffb6c1;
+            border: none;
+            border-radius: 50px;
+            padding: 5px 15px;
+            font-family: 'Indie+Flower', cursive;
+            color: white;
+            cursor: pointer;
+        }
+        
+        .doodle {
+            position: absolute;
+            opacity: 0.6;
+            z-index: -1;
+        }
+        
+        .heart-doodle {
+            color: #ffb6c1;
+            font-size: 20px;
+        }
+        
+        .star-doodle {
+            color: #ffd166;
+            font-size: 18px;
+        }
+        
+        .ribbon-doodle {
+            color: #a2d2ff;
+            font-size: 24px;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ff85a2;
+            opacity: 0;
+        }
+        
+        .certificate {
+            width: 100%;
+            max-width: 400px;
+            background-color: #fff9f9;
+            border: 15px solid #ffb6c1;
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .certificate::before {
+            content: '★';
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            font-size: 30px;
+            color: #ffd166;
+            background: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .certificate::after {
+            content: '★';
+            position: absolute;
+            bottom: -15px;
+            right: -15px;
+            font-size: 30px;
+            color: #ffd166;
+            background: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .certificate-title {
+            font-size: 1.8rem;
+            color: #ff85a2;
+            margin-bottom: 10px;
+        }
+        
+        .certificate-subtitle {
+            font-size: 1.2rem;
+            color: #a2d2ff;
+            margin-bottom: 20px;
+        }
+        
+        .certificate-image {
+            width: 100%;
+            max-height: 200px;
+            object-fit: contain;
+            margin: 15px 0;
+            border: 3px dashed #b5ead7;
+            padding: 10px;
+            background-color: white;
+        }
+        
+        .certificate-text {
+            font-size: 1rem;
+            color: #666;
+            margin: 10px 0;
+        }
+        
+        .certificate-signature {
+            margin-top: 20px;
+            font-style: italic;
+            color: #ff85a2;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-100vh) rotate(360deg); }
+        }
+        
+        @keyframes fall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        /* Mobile responsiveness */
+        @media (max-width: 500px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .photo-placeholder {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .message {
+                font-size: 1rem;
+            }
+            
+            .action-btn {
+                font-size: 1.1rem;
+                padding: 12px 20px;
+            }
+            
+            .certificate {
+                padding: 15px;
+                border-width: 10px;
+            }
+            
+            .certificate-title {
+                font-size: 1.5rem;
+            }
+            
+            .certificate-subtitle {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Page 1 - Welcome -->
+    <div class="container" id="page1">
+        <h1>Website for the Best Big Brother</h1>
+        <div class="page">
+            <div class="photo-placeholder">
+                <span>Brother's Photo Here</span>
+            </div>
+            <p class="message">
+                Dear Kaka Agas,<br>
+                You're the most amazing big brother in the world! 
+                Thank you for always being there for me. 
+                This little website is just for you! 💖
+            </p>
+        </div>
+        <div class="nav-buttons">
+            <button class="nav-btn" disabled>👈</button>
+            <button class="nav-btn" onclick="nextPage()">👉</button>
+        </div>
+    </div>
+    
+    <!-- Page 2 - Song for You -->
+    <div class="container hidden" id="page2">
+        <h1>Songs for You</h1>
+        <div class="page">
+            <div class="audio-player">
+                <audio controls>
+                    <source src="season.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                <div class="song-caption">This song reminds me of our favorite season together!</div>
+            </div>
+            
+            <div class="audio-player">
+                <audio controls>
+                    <source src="best.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                <div class="song-caption">Because you're simply the BEST brother!</div>
+            </div>
+            
+            <div class="audio-player">
+                <audio controls>
+                    <source src="bad.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                <div class="song-caption">For when you're feeling down - you're not bad at all!</div>
+            </div>
+        </div>
+        <div class="nav-buttons">
+            <button class="nav-btn" onclick="prevPage()">👈</button>
+            <button class="nav-btn" onclick="nextPage()">👉</button>
+        </div>
+    </div>
+    
+    <!-- Page 3 - Certificate -->
+    <div class="container hidden" id="page3">
+        <h1>Special Award</h1>
+        <div class="page">
+            <div class="certificate">
+                <div class="certificate-title">Certificate of Awesomeness</div>
+                <div class="certificate-subtitle">Awarded to Kaka Agas</div>
+                <img src="certi.jpg" alt="Certificate for Best Brother" class="certificate-image">
+                <div class="certificate-text">
+                    For being the most amazing, supportive,<br>
+                    and loving big brother in the world!
+                </div>
+                <div class="certificate-text">
+                    You deserve all the happiness<br>
+                    and love in the universe!
+                </div>
+                <div class="certificate-signature">
+                    With love,<br>
+                    Your Sibling
+                </div>
+            </div>
+        </div>
+        <div class="nav-buttons">
+            <button class="nav-btn" onclick="prevPage()">👈</button>
+            <button class="nav-btn" onclick="nextPage()">👉</button>
+        </div>
+    </div>
+    
+    <!-- Page 4 - Hugs & Encouragement -->
+    <div class="container hidden" id="page4">
+        <h1>Hugs & Encouragement</h1>
+        <div class="page">
+            <button class="action-btn" onclick="sendHug()">Send Hug 🤗</button>
+            <button class="action-btn" onclick="showMotivation()">Motivation 💬</button>
+        </div>
+        <div class="nav-buttons">
+            <button class="nav-btn" onclick="prevPage()">👈</button>
+            <button class="nav-btn" onclick="nextPage()">👉</button>
+        </div>
+        
+        <div class="quote-box" id="quoteBox">
+            <p class="quote-text" id="quoteText"></p>
+            <button class="close-btn" onclick="closeQuote()">OK</button>
+        </div>
+    </div>
+    
+    <!-- Page 5 - Outro -->
+    <div class="container hidden" id="page5">
+        <h1>This website is just for Kaka Agas 💖</h1>
+        <div class="page">
+            <p class="message" style="font-size: 1.3rem;">
+                I love you so much!<br>
+                Thank you for being my brother 💕
+            </p>
+        </div>
+        <div class="nav-buttons">
+            <button class="nav-btn" onclick="prevPage()">👈</button>
+            <button class="nav-btn" disabled>👉</button>
+        </div>
+    </div>
+    
+    <script>
+        let currentPage = 1;
+        const totalPages = 5;
+        
+        // Motivational quotes
+        const quotes = [
+            "You're stronger than you think and more loved than you know!",
+            "Every day is a new chance to shine, and you always do!",
+            "You've got this! I believe in you completely.",
+            "The world is better because you're in it!",
+            "Your kindness and strength inspire me every day.",
+            "No matter what happens, I'll always be proud of you.",
+            "You're not just my brother, you're my hero!"
+        ];
+        
+        // Create doodles
+        function createDoodles() {
+            const doodles = ['♥', '★', '✿', '✧', '❀', '✦'];
+            const colors = ['#ffb6c1', '#ffd166', '#a2d2ff', '#b5ead7', '#c7ceea'];
+            
+            for (let i = 0; i < 20; i++) {
+                const doodle = document.createElement('div');
+                doodle.className = 'doodle';
+                doodle.innerHTML = doodles[Math.floor(Math.random() * doodles.length)];
+                doodle.style.color = colors[Math.floor(Math.random() * colors.length)];
+                doodle.style.left = Math.random() * 100 + 'vw';
+                doodle.style.top = Math.random() * 100 + 'vh';
+                doodle.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                doodle.style.animation = `float ${(Math.random() * 10 + 10)}s linear infinite`;
+                doodle.style.animationDelay = `${Math.random() * 5}s`;
+                document.body.appendChild(doodle);
+            }
+        }
+        
+        // Navigation functions
+        function nextPage() {
+            if (currentPage < totalPages) {
+                document.getElementById(`page${currentPage}`).classList.add('hidden');
+                currentPage++;
+                document.getElementById(`page${currentPage}`).classList.remove('hidden');
+                
+                // Add special effects for page 5
+                if (currentPage === 5) {
+                    startConfetti();
+                }
+            }
+        }
+        
+        function prevPage() {
+            if (currentPage > 1) {
+                document.getElementById(`page${currentPage}`).classList.add('hidden');
+                currentPage--;
+                document.getElementById(`page${currentPage}`).classList.remove('hidden');
+            }
+        }
+        
+        // Hug button function
+        function sendHug() {
+            // Create heart explosion
+            for (let i = 0; i < 30; i++) {
+                createConfetti(true);
+            }
+        }
+        
+        // Motivation button function
+        function showMotivation() {
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            document.getElementById('quoteText').textContent = randomQuote;
+            document.getElementById('quoteBox').style.display = 'block';
+        }
+        
+        function closeQuote() {
+            document.getElementById('quoteBox').style.display = 'none';
+        }
+        
+        // Confetti functions
+        function createConfetti(isHeart = false) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            
+            if (isHeart) {
+                confetti.innerHTML = '♥';
+                confetti.style.color = '#ff85a2';
+                confetti.style.fontSize = '20px';
+                confetti.style.background = 'transparent';
+            } else {
+                const colors = ['#ff85a2', '#a2d2ff', '#b5ead7', '#ffd166', '#c7ceea'];
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            }
+            
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.top = '-10px';
+            confetti.style.width = (Math.random() * 10 + 5) + 'px';
+            confetti.style.height = (Math.random() * 10 + 5) + 'px';
+            confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+            
+            document.body.appendChild(confetti);
+            
+            const animationDuration = Math.random() * 3 + 2;
+            confetti.style.animation = `fall ${animationDuration}s linear forwards`;
+            
+            setTimeout(() => {
+                confetti.remove();
+            }, animationDuration * 1000);
+        }
+        
+        function startConfetti() {
+            const interval = setInterval(() => {
+                createConfetti();
+            }, 300);
+            
+            setTimeout(() => {
+                clearInterval(interval);
+            }, 3000);
+        }
+        
+        // Initialize
+        window.onload = function() {
+            createDoodles();
+        };
+    </script>
+</body>
+</html>
